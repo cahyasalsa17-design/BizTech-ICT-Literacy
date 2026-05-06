@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account information and learning progress",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Full name of the user" },
+        "role": { "type": "string", "enum": ["student", "teacher"], "description": "User role" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" },
+        "scores": {
+          "type": "object",
+          "description": "Quiz scores for each module"
+        },
+        "progress": {
+          "type": "object",
+          "description": "Learning progress tracking for each module"
+        }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    },
+    "Module": {
+      "title": "Learning Module",
+      "description": "Educational content for ICT Literacy in Business",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "duration": { "type": "string" },
+        "content": { "type": "string" },
+        "subTopics": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "quiz": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "description", "duration", "subTopics", "quiz"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user documents keyed by their Auth UID"
+    },
+    "modules/{moduleId}": {
+      "schema": "Module",
+      "description": "Collection of learning modules"
+    }
+  }
+}
